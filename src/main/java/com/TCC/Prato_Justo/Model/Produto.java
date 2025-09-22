@@ -1,7 +1,9 @@
 package com.TCC.Prato_Justo.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Produto")
@@ -14,10 +16,12 @@ public class Produto {
     private String nameProduto;
     private String tipoAlimento;
     private Double quantidade;
-    private String descicao;
+    private String descricao;
     private String endereco;
     private String cidade;
-    private Date validade;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate validade;
 
     @Column(unique = true)
     public Long getId() {
@@ -52,12 +56,12 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public String getDescicao() {
-        return descicao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescicao(String descicao) {
-        this.descicao = descicao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getEndereco() {
@@ -76,11 +80,11 @@ public class Produto {
         this.cidade = cidade;
     }
 
-    public Date getValidade() {
+    public LocalDate getValidade() {
         return validade;
     }
 
-    public void setValidade(Date validade) {
+    public void setValidade(LocalDate validade) {
         this.validade = validade;
     }
 }

@@ -30,7 +30,7 @@ public class ProdutosService  {
             produto.setQuantidade(produtoAtualizado.getQuantidade());
             produto.setQuantidade(produtoAtualizado.getQuantidade());
             produto.setValidade(produtoAtualizado.getValidade());
-            produto.setDescicao(produtoAtualizado.getDescicao());
+            produto.setDescricao(produtoAtualizado.getDescricao());
             produto.setEndereco(produtoAtualizado.getEndereco());
             produto.setCidade(produtoAtualizado.getCidade());
             return anthProdutosRepository.save(produto);
