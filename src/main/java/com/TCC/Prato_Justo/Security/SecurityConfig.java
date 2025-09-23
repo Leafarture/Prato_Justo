@@ -11,15 +11,18 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
                     .csrf(csrf -> csrf.disable()) // desabilita CSRF para testes
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/auth/**", "/css/**", "/js/**").permitAll() // libera cadastro, login e arquivos estáticos
+                    .authorizeHttpRequests(requests -> requests
+                            .requestMatchers("/**").permitAll() // Permite acesso a todas as URLs
                             .anyRequest().authenticated()
                     )
                     .formLogin(form -> form
-                            .loginPage("/login") // aqui você coloca o caminho da SUA página de login
+                            .loginPage("/login.html") // Aponta para a página de login estática
+                            .defaultSuccessUrl("/index.html", true)
                             .permitAll()
                     )
-                    .logout(logout -> logout.permitAll());
+                    .logout(logout -> logout
+                        .logoutSuccessUrl("/login.html")
+                        .permitAll());
 
             return http.build();
         }
