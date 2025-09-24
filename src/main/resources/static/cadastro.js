@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 const user = await response.json(); // Recebe os dados do usuário criado
                 alert("Cadastro realizado com sucesso para " + user.username + "!");
-                window.location.href = "./home.html"; // Redireciona para a página Home
+                window.location.href = "./index.html"; // Redireciona para a página Home
             } else {
                 const msg = await response.text();
                 alert("Erro ao cadastrar: " + msg);

@@ -8,7 +8,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
     // Para teste, vamos aceitar qualquer login
     if(email && password){
         // Redirecionar para a página Home
-        window.location.href = "home.html";
+        window.location.href = "./index.html";
     } else {
         alert("Por favor, preencha todos os campos corretamente.");
     }
