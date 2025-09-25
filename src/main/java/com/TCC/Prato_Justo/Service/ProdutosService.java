@@ -28,7 +28,6 @@ public class ProdutosService  {
             produto.setNameProduto(produtoAtualizado.getNameProduto());
             produto.setTipoAlimento(produtoAtualizado.getTipoAlimento());
             produto.setQuantidade(produtoAtualizado.getQuantidade());
-            produto.setQuantidade(produtoAtualizado.getQuantidade());
             produto.setValidade(produtoAtualizado.getValidade());
             produto.setDescricao(produtoAtualizado.getDescricao());
             produto.setEndereco(produtoAtualizado.getEndereco());

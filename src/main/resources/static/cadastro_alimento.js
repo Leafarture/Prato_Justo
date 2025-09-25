@@ -6,22 +6,40 @@ foodForm.addEventListener('submit', function(e) {
     e.preventDefault(); // Evita o reload da página
 
     const foodData = {
-        name: document.getElementById('foodName').value,
-        type: document.getElementById('foodType').value,
-        quantity: document.getElementById('quantity').value,
-        expiryDate: document.getElementById('expiryDate').value,
-        description: document.getElementById('description').value,
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value,
+        nameProduto: document.getElementById('foodName').value,
+        tipoAlimento: document.getElementById('foodType').value,
+        quantidade: parseFloat(document.getElementById('quantity').value),
+        validade: document.getElementById('expiryDate').value,
+        descricao: document.getElementById('description').value,
+        endereco: document.getElementById('address').value,
+        cidade: document.getElementById('city').value,
     };
 
     console.log('Alimento cadastrado:', foodData);
 
-    // Aqui você pode enviar para um backend via fetch/AJAX
-    alert('Alimento cadastrado com sucesso!');
-
-    // Limpar formulário
-    foodForm.reset();
+    // Enviar para o backend via fetch
+    fetch('/auth/cadastrar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(foodData),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao cadastrar alimento');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Sucesso:', data);
+        alert('Alimento cadastrado com sucesso!');
+        foodForm.reset();
+    })
+    .catch((error) => {
+        console.error('Erro:', error);
+        alert('Falha ao cadastrar alimento. Verifique o console para mais detalhes.');
+    });
 });
 
 // Botão de geolocalização
