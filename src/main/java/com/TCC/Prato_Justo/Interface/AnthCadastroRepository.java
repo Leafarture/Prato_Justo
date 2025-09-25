@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface AnthCadastroRepository extends JpaRepository<Cadastro, Long> {
     Optional<Cadastro> findByUsernameAndPasswordAndEmail(String username, String password, String email);
+    Optional<Cadastro> findByEmail(String email);
 }

@@ -59,61 +59,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ===== SCROLL SUAVE =====
+    // ===== SCROLL SUAVE E NAVEGAÇÃO (CORRIGIDO) =====
+
+    let scrollClickTimeout;
 
     /**
-     * Implementa scroll suave para links âncora
-     * @param {Event} e - Evento de clique
+     * Gerencia o clique nos links de navegação para rolagem suave e atualização da classe 'active'.
+     * @param {Event} e - O evento de clique.
      */
-    function smoothScroll(e) {
-        const targetId = e.target.getAttribute('href');
+    function handleLinkClick(e) {
+        const targetId = e.currentTarget.getAttribute('href');
+        if (!targetId || !targetId.startsWith('#')) return;
 
-        // Verifica se é um link âncora interno
-        if (targetId && targetId.startsWith('#')) {
-            e.preventDefault();
-            const targetElement = document.querySelector(targetId);
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+        if (!targetElement) return;
 
-            if (targetElement) {
-                const headerHeight = header.offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+        // 1. Desativa o listener de scroll para evitar o conflito durante a rolagem suave.
+        window.removeEventListener('scroll', throttledScrollHandler);
 
-                // Garante que a rolagem seja suave
-                window.scrollTo({
-                    top: Math.max(0, targetPosition),
-                    behavior: 'smooth'
-                });
+        // 2. Atualiza a classe 'active' imediatamente no clique para feedback instantâneo.
+        navLinks.forEach(link => link.classList.remove('active'));
+        e.currentTarget.classList.add('active');
 
-                // Fallback para navegadores que não suportam smooth scroll
-                if (!('scrollBehavior' in document.documentElement.style)) {
-                    const startPosition = window.pageYOffset;
-                    const distance = targetPosition - startPosition;
-                    const duration = 800;
-                    let start = null;
+        // 3. Calcula a posição de destino e executa a rolagem suave.
+        const headerHeight = header.offsetHeight;
+        const targetPosition = targetElement.offsetTop - headerHeight - 20;
+        window.scrollTo({
+            top: Math.max(0, targetPosition),
+            behavior: 'smooth'
+        });
 
-                    function animation(currentTime) {
-                        if (start === null) start = currentTime;
-                        const timeElapsed = currentTime - start;
-                        const run = ease(timeElapsed, startPosition, distance, duration);
-                        window.scrollTo(0, run);
-                        if (timeElapsed < duration) requestAnimationFrame(animation);
-                    }
-
-                    function ease(t, b, c, d) {
-                        t /= d / 2;
-                        if (t < 1) return c / 2 * t * t + b;
-                        t--;
-                        return -c / 2 * (t * (t - 2) - 1) + b;
-                    }
-
-                    requestAnimationFrame(animation);
-                }
-            }
-        }
+        // 4. Reativa o listener de scroll após a animação.
+        clearTimeout(scrollClickTimeout);
+        scrollClickTimeout = setTimeout(() => {
+            // Garante que a navegação ativa esteja correta ao final da rolagem
+            updateActiveNavigation();
+            window.addEventListener('scroll', throttledScrollHandler);
+        }, 1000); // Duração segura para a maioria das animações de 'smooth scroll'.
     }
 
-    // Adiciona scroll suave a todos os links de navegação
+    // Adiciona o listener de clique a todos os links de navegação.
     navLinks.forEach(link => {
-        link.addEventListener('click', smoothScroll);
+        link.addEventListener('click', handleLinkClick);
     });
 
     // ===== HEADER SCROLL EFFECT =====
