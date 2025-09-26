@@ -69,11 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function handleLinkClick(e) {
         const targetId = e.currentTarget.getAttribute('href');
-        
-        // Se não for um link interno (não começa com #), permite navegação normal
-        if (!targetId || !targetId.startsWith('#')) {
-            return;
-        }
+        if (!targetId || !targetId.startsWith('#')) return;
 
         e.preventDefault();
         const targetElement = document.querySelector(targetId);
