@@ -62,6 +62,7 @@ body {
 }
 
 .card {
+  
   width: 100%;
   max-width: 520px;
   background: linear-gradient(180deg, rgba(59, 130, 246, 0.08), rgba(220, 38, 38, 0.08)) padding-box,
@@ -73,10 +74,19 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.03) inset;
 }
 
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
 .card__title {
-  margin: 0 0 12px 0;
+  margin: 0 0 12px 0;;
   font-size: 20px;
   font-weight: 700;
+  text-align: center;
+  flex: 1;
 }
 
 .field { margin-top: 14px; }
@@ -90,7 +100,9 @@ body {
 
 .field input[type="text"],
 .field input[type="email"],
-.field input[type="password"] {
+.field input[type="password"],
+.field input[type="tel"],
+.field textarea {
   width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
@@ -99,13 +111,18 @@ body {
   color: var(--texto);
   outline: none;
   transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  font-family: inherit;
+  resize: vertical;
 }
 
-.field input::placeholder { color: #9aa4b2; }
+.field input::placeholder,
+.field textarea::placeholder { color: #9aa4b2; }
 
-.field input:hover { background: rgba(255,255,255,0.04); }
+.field input:hover,
+.field textarea:hover { background: rgba(255,255,255,0.04); }
 
-.field input:focus {
+.field input:focus,
+.field textarea:focus {
   border-color: var(--azul-claro);
   box-shadow: var(--focus-ring);
 }
@@ -153,6 +170,26 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: transform 120ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.btn--back {
+  margin-top: 0;
+  width: auto;
+  padding: 8px 16px;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 0px;
+}
+
+.btn--back:hover {
+  background: #f5f5f5;
+  border-color: #999;
+  color: #333;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn--primary {
