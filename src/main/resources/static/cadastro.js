@@ -1,5 +1,25 @@
+// Função para navegação
+function goTo(url) {
+    window.location.href = url;
+}
+
 // Aguarda o carregamento completo do DOM
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Define perfil a partir da URL (?p=pf|org) e ajusta UI
+    const params = new URLSearchParams(window.location.search);
+    const p = params.get("p");
+    const perfilInput = document.getElementById("perfil");
+    const subtitle = document.getElementById("cadastro-subtitle");
+    if (p === "pf") {
+        perfilInput && (perfilInput.value = "PESSOA_FISICA");
+        if (subtitle) subtitle.textContent = "Perfil selecionado: Pessoa Física";
+    } else if (p === "org") {
+        perfilInput && (perfilInput.value = "ESTABELECIMENTO_ONG");
+        if (subtitle) subtitle.textContent = "Perfil selecionado: Estabelecimento / ONG";
+    } else {
+        if (subtitle) subtitle.innerHTML = 'Selecione um perfil em <a class="link" href="./cadastro_perfil.html">Escolher perfil</a>.';
+    }
 
     // Seleciona o formulário de cadastro
     const form = document.getElementById("form-cadastro");
@@ -12,15 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
         // --------------------------
         const nome = document.getElementById("nome");
         const email = document.getElementById("email");
+        const telefone = document.getElementById("telefone");
+        const endereco = document.getElementById("endereco");
         const senha = document.getElementById("senha");
         const confirmar = document.getElementById("confirmar");
         const termos = document.getElementById("termos");
+        const perfil = document.getElementById("perfil");
 
         // --------------------------
         // Elementos para mostrar erros
         // --------------------------
         const erroNome = document.getElementById("erro-nome");
         const erroEmail = document.getElementById("erro-email");
+        const erroTelefone = document.getElementById("erro-telefone");
+        const erroEndereco = document.getElementById("erro-endereco");
         const erroSenha = document.getElementById("erro-senha");
         const erroConfirmar = document.getElementById("erro-confirmar");
         const erroTermos = document.getElementById("erro-termos");
@@ -30,6 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // --------------------------
         erroNome.textContent = "";
         erroEmail.textContent = "";
+        erroTelefone.textContent = "";
+        erroEndereco.textContent = "";
         erroSenha.textContent = "";
         erroConfirmar.textContent = "";
         erroTermos.textContent = "";
@@ -46,6 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!email.value.trim() || !email.value.includes("@")) {
             erroEmail.textContent = "Digite um e-mail válido.";
+            temErro = true;
+        }
+
+        if (!endereco.value.trim()) {
+            erroEndereco.textContent = "Digite seu endereço completo.";
             temErro = true;
         }
 
@@ -73,7 +105,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const cadastroData = {
             username: nome.value.trim(),
             email: email.value.trim(),
-            password: senha.value
+            password: senha.value,
+            perfil: perfil?.value || null,
+            telefone: telefone.value.trim() || null,
+            enderecoCompleto: endereco.value.trim(),
+            latitude: null, // Pode ser implementado com geolocalização
+            longitude: null // Pode ser implementado com geolocalização
         };
 
         // --------------------------
